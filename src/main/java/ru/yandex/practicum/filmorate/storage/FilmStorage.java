@@ -3,7 +3,9 @@ package ru.yandex.practicum.filmorate.storage;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.util.Validator;
 
@@ -22,14 +24,20 @@ public class FilmStorage {
     public Film create(Film film) {
         Validator.validateFilm(film);
         log.info("");
-        return films.put(idGen++, film);
+        film.setId(idGen);
+        films.put(idGen++, film);
+        return film;
     }
 
     public Film update(Film film) {
-        Validator.validateFilm(film);
-        log.info("");
-        films.put(film.getId(), film);
-        return film;
+        if (films.containsKey(film.getId())) {
+            Validator.validateFilm(film);
+            log.info("");
+            films.put(film.getId(), film);
+            return film;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
     }
 
     public List<Film> readAll() {

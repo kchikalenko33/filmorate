@@ -1,11 +1,12 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.FilmDto;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.List;
@@ -22,20 +23,20 @@ public class FilmController {
     }
 
     @PostMapping
-    public ResponseEntity<Film> create(@RequestBody Film film) {
+    public ResponseEntity<FilmDto> create(@RequestBody @Valid FilmDto filmDto) {
         log.info("");
-        return new ResponseEntity<>(filmService.create(film), HttpStatus.CREATED);
+        return new ResponseEntity<>(filmService.create(filmDto), HttpStatus.CREATED);
     }
 
     @PutMapping
-    public ResponseEntity<Film> update(@RequestBody Film film) {
+    public ResponseEntity<FilmDto> update(@RequestBody @Valid FilmDto filmDto) {
         log.info("");
-        return new ResponseEntity<>(filmService.update(film), HttpStatus.OK);
+        return new ResponseEntity<>(filmService.update(filmDto), HttpStatus.OK);
     }
 
     @GetMapping
-    public  ResponseEntity<List<Film>> readAll() {
+    public ResponseEntity<List<FilmDto>> readAll() {
         log.info("");
-        return  new ResponseEntity<>(filmService.readAll(), HttpStatus.OK);
+        return new ResponseEntity<>(filmService.readAll(), HttpStatus.OK);
     }
 }

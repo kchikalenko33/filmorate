@@ -2,10 +2,12 @@ package ru.yandex.practicum.filmorate.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.FilmDto;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
 import java.util.List;
+
+import static ru.yandex.practicum.filmorate.util.FilmMapper.*;
 
 @Service
 public class FilmService {
@@ -16,16 +18,16 @@ public class FilmService {
         this.filmStorage = filmStorage;
     }
 
-    public Film create(Film film) {
-        return filmStorage.create(film);
+    public FilmDto create(FilmDto filmDto) {
+        return filmToDto(filmStorage.create(filmFromDto(filmDto)));
     }
 
 
-    public Film update(Film film) {
-        return filmStorage.update(film);
+    public FilmDto update(FilmDto filmDto) {
+        return filmToDto(filmStorage.update(filmFromDto(filmDto)));
     }
 
-    public List<Film> readAll() {
-        return filmStorage.readAll();
+    public List<FilmDto> readAll() {
+        return filmsToDto(filmStorage.readAll());
     }
 }
