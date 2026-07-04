@@ -6,12 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.function.EntityResponse;
 import ru.yandex.practicum.filmorate.model.UserDto;
 import ru.yandex.practicum.filmorate.service.UserService;
-
-import static ru.yandex.practicum.filmorate.util.UserMapper.userFromDto;
-import static ru.yandex.practicum.filmorate.util.UserMapper.userToDto;
 
 @Slf4j
 @RestController
