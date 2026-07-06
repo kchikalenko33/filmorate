@@ -23,25 +23,33 @@ public class FilmStorage {
 
     public Film create(Film film) {
         Validator.validateFilm(film);
-        log.info("");
+
         film.setId(idGen);
         films.put(idGen++, film);
+
+        log.info("FilmStorage: фильм создан, id={}, name='{}'", film.getId(), film.getName());
+
         return film;
     }
 
     public Film update(Film film) {
         if (films.containsKey(film.getId())) {
             Validator.validateFilm(film);
-            log.info("");
             films.put(film.getId(), film);
+
+            log.info("FilmStorage: фильм обновлен, id={}, name='{}'", film.getId(), film.getName());
+
             return film;
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            log.warn("FilmStorage: попытка обновить несуществующий фильм, id={}", film.getId());
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Фильм с id=" + film.getId() + " не найден");
         }
     }
 
     public List<Film> readAll() {
-        log.info("");
+        log.info("FilmStorage: получен список фильмов, количество={}", films.size());
+
         return new ArrayList<>(films.values());
     }
 }

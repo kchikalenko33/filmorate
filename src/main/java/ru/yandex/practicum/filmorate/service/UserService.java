@@ -6,12 +6,13 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.UserDto;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
-import static ru.yandex.practicum.filmorate.util.UserMapper.userFromDto;
-import static ru.yandex.practicum.filmorate.util.UserMapper.userToDto;
+import java.util.List;
+
+import static ru.yandex.practicum.filmorate.util.UserMapper.*;
 
 @Service
 public class UserService {
-    private UserStorage userStorage;
+    private final UserStorage userStorage;
 
     @Autowired
     public UserService(UserStorage userStorage) {
@@ -24,5 +25,9 @@ public class UserService {
 
     public @Nullable UserDto update(UserDto userDto) {
         return userToDto(userStorage.update(userFromDto(userDto)));
+    }
+
+    public List<UserDto> readAll() {
+        return usersToDto(userStorage.readAll());
     }
 }

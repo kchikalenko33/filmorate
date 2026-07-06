@@ -11,7 +11,7 @@ import static ru.yandex.practicum.filmorate.util.FilmMapper.*;
 
 @Service
 public class FilmService {
-    private FilmStorage filmStorage;
+    private final FilmStorage filmStorage;
 
     @Autowired
     public FilmService(FilmStorage filmStorage) {

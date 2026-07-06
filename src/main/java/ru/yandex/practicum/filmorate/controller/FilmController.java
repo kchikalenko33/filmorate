@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("films")
 public class FilmController {
-    private FilmService filmService;
+    private final FilmService filmService;
 
     @Autowired
     public FilmController(FilmService filmService) {
@@ -24,19 +24,23 @@ public class FilmController {
 
     @PostMapping
     public ResponseEntity<FilmDto> create(@RequestBody @Valid FilmDto filmDto) {
-        log.info("");
+        log.info("POST /films - создание фильма: name='{}', releaseDate={}",
+                filmDto.getName(), filmDto.getReleaseDate());
+
         return new ResponseEntity<>(filmService.create(filmDto), HttpStatus.CREATED);
     }
 
     @PutMapping
     public ResponseEntity<FilmDto> update(@RequestBody @Valid FilmDto filmDto) {
-        log.info("");
+        log.info("PUT /films - обновление фильма, id={}", filmDto.getId());
+
         return new ResponseEntity<>(filmService.update(filmDto), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<FilmDto>> readAll() {
-        log.info("");
+        log.info("GET /films - запрос списка всех фильмов");
+
         return new ResponseEntity<>(filmService.readAll(), HttpStatus.OK);
     }
 }

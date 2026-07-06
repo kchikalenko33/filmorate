@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
-import static ru.yandex.practicum.filmorate.util.Validator.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static ru.yandex.practicum.filmorate.util.Validator.prepareUser;
 
 @Slf4j
 @Component
@@ -18,20 +21,37 @@ public class UserStorage {
 
     public User create(User user) {
         prepareUser(user);
-        log.info("");
-        user.setId(idGen++);
-        users.put(idGen, user);
+
+        user.setId(idGen);
+        users.put(idGen++, user);
+
+        log.info("UserStorage: пользователь создан, id={}, email='{}', login='{}'",
+                user.getId(), user.getEmail(), user.getLogin());
+
         return user;
     }
 
     public User update(User user) {
         if (users.containsKey(user.getId())) {
             prepareUser(user);
-            log.info("");
+
             users.put(user.getId(), user);
+
+            log.info("UserStorage: пользователь обновлен, id={}, email='{}', login='{}'",
+                    user.getId(), user.getEmail(), user.getLogin());
+
             return user;
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            log.warn("UserStorage: попытка обновить несуществующего пользователя, id={}", user.getId());
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Пользователь с id=" + user.getId() + " не найден");
         }
+    }
+
+    public List<User> readAll() {
+        log.info("UserStorage: получен список пользователей, количество={}", users.size());
+
+        return new ArrayList<>(users.values());
     }
 }
