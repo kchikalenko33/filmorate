@@ -8,13 +8,15 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class FilmDto {
     @Positive
     Integer id;
@@ -28,4 +30,5 @@ public class FilmDto {
     Integer duration;
     @Positive
     Integer rate;
+    Set<Integer> likes = new HashSet<>();
 }

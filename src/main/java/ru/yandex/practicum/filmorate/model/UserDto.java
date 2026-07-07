@@ -5,13 +5,15 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class UserDto {
     @Positive
     Integer id;
@@ -24,4 +26,5 @@ public class UserDto {
     String name;
     @Past
     LocalDate birthday;
+    Set<Integer> friends = new HashSet<>();
 }

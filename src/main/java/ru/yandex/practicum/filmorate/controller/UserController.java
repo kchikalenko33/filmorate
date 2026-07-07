@@ -43,4 +43,32 @@ public class UserController {
 
         return new ResponseEntity<>(userService.readAll(), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> readById(@PathVariable Integer id) {
+        log.info("GET /users/{} - запрос пользователя по id", id);
+
+        return new ResponseEntity<>(userService.readById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<?> addFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        log.info("PUT /users/{}/friends/{} - добавление в друзья", id, friendId);
+
+        return new ResponseEntity<>(userService.addFriend(id, friendId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/friends/{friendId}")
+    public ResponseEntity<?> deleteFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
+        log.info("DELETE /users/{}/friends/{} - удаление из друзей", id, friendId);
+
+        return new ResponseEntity<>(userService.deleteFriend(id, friendId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/friends")
+    public ResponseEntity<List<UserDto>> readFriends(@PathVariable Integer id) {
+        log.info("GET /users/{}/friends - запрос списка друзей пользователя", id);
+
+        return new ResponseEntity<>(userService.readFriends(id), HttpStatus.OK);
+    }
 }

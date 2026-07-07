@@ -18,6 +18,7 @@ public class UserMapper {
                 .login(userDto.getLogin())
                 .name(userDto.getName())
                 .birthday(userDto.getBirthday())
+                .friends(userDto.getFriends())
                 .build();
     }
 
@@ -28,6 +29,7 @@ public class UserMapper {
                 .login(user.getLogin())
                 .name(user.getName())
                 .birthday(user.getBirthday())
+                .friends(user.getFriends())
                 .build();
     }
 

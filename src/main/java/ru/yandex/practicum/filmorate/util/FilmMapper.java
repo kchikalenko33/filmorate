@@ -19,6 +19,7 @@ public class FilmMapper {
                 .releaseDate(filmDto.getReleaseDate())
                 .duration(filmDto.getDuration())
                 .rate(filmDto.getRate())
+                .likes(filmDto.getLikes())
                 .build();
     }
 
@@ -30,6 +31,7 @@ public class FilmMapper {
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
                 .rate(film.getRate())
+                .likes(film.getLikes())
                 .build();
     }
 
