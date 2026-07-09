@@ -26,5 +26,7 @@ public class UserDto {
     String name;
     @Past
     LocalDate birthday;
+
+    @Builder.Default
     Set<Integer> friends = new HashSet<>();
 }

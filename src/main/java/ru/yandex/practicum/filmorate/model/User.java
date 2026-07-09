@@ -19,5 +19,7 @@ public class User {
     String login;
     String name;
     LocalDate birthday;
+
+    @Builder.Default
     Set<Integer> friends = new HashSet<>();
 }

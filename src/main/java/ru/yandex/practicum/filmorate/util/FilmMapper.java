@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.model.FilmDto;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +20,7 @@ public class FilmMapper {
                 .releaseDate(filmDto.getReleaseDate())
                 .duration(filmDto.getDuration())
                 .rate(filmDto.getRate())
-                .likes(filmDto.getLikes())
+                .likes(filmDto.getLikes() == null ? new HashSet<>() : filmDto.getLikes())
                 .build();
     }
 
@@ -31,7 +32,7 @@ public class FilmMapper {
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
                 .rate(film.getRate())
-                .likes(film.getLikes())
+                .likes(film.getLikes() == null ? new HashSet<>() : film.getLikes())
                 .build();
     }
 

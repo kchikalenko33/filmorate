@@ -8,4 +8,12 @@ public interface FilmStorage {
     Film create(Film film);
     Film update(Film film);
     List<Film> readAll();
+
+    Film readById(Integer id);
+
+    Object addLike(Integer id, Integer userId);
+
+    Object deleteLike(Integer id, Integer userId);
+
+    List<Film> readPopular(Integer count);
 }

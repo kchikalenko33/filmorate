@@ -30,5 +30,7 @@ public class FilmDto {
     Integer duration;
     @Positive
     Integer rate;
+
+    @Builder.Default
     Set<Integer> likes = new HashSet<>();
 }

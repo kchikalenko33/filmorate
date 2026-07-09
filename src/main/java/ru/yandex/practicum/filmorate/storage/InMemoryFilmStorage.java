@@ -7,17 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.util.Validator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class InMemoryFilmStorage implements FilmStorage{
+public class InMemoryFilmStorage implements FilmStorage {
     final Map<Integer, Film> films = new HashMap<>();
     Integer idGen = 1;
 
@@ -54,5 +53,46 @@ public class InMemoryFilmStorage implements FilmStorage{
         log.info("FilmStorage: получен список фильмов, количество={}", films.size());
 
         return new ArrayList<>(films.values());
+    }
+
+    @Override
+    public Film readById(Integer id) {
+        Film film = films.get(id);
+        if (film == null) {
+            log.warn("FilmStorage: фильм не найден, id={}", id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Фильм с id=" + id + " не найден");
+        }
+        return film;
+    }
+
+    @Override
+    public Object addLike(Integer id, Integer userId) {
+        Film film = readById(id);
+
+        film.getLikes().add(userId);
+
+        log.info("FilmStorage: фильму id={} добавлен лайк от пользователя id={}", id, userId);
+
+        return Map.of("res", "ok");
+    }
+
+    @Override
+    public Object deleteLike(Integer id, Integer userId) {
+        Film film = readById(id);
+
+        film.getLikes().remove(userId);
+
+        log.info(" ");
+
+        return Map.of("res", "ok");
+    }
+
+    @Override
+    public List<Film> readPopular(Integer count) {
+        return films.values().stream()
+                .sorted(((o1, o2) -> o2.getLikes().size() - o1.getLikes().size()))
+                .limit(count)
+                .collect(Collectors.toList());
     }
 }

@@ -5,6 +5,7 @@ import lombok.experimental.UtilityClass;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.model.UserDto;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +19,7 @@ public class UserMapper {
                 .login(userDto.getLogin())
                 .name(userDto.getName())
                 .birthday(userDto.getBirthday())
-                .friends(userDto.getFriends())
+                .friends(userDto.getFriends() == null ? new HashSet<>() : userDto.getFriends())
                 .build();
     }
 
@@ -29,7 +30,7 @@ public class UserMapper {
                 .login(user.getLogin())
                 .name(user.getName())
                 .birthday(user.getBirthday())
-                .friends(user.getFriends())
+                .friends(user.getFriends() == null ? new HashSet<>() : user.getFriends())
                 .build();
     }
 

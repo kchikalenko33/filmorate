@@ -46,4 +46,8 @@ public class UserService {
     public List<UserDto> readFriends(Integer id) {
         return usersToDto(inMemoryUserStorage.readFriends(id));
     }
+
+    public List<UserDto> readCommonFriends(Integer id, Integer otherId) {
+        return usersToDto(inMemoryUserStorage.readCommonFriends(id, otherId));
+    }
 }

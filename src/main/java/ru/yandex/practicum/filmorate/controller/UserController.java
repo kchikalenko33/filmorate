@@ -71,4 +71,11 @@ public class UserController {
 
         return new ResponseEntity<>(userService.readFriends(id), HttpStatus.OK);
     }
+
+    @GetMapping("/{id}/friends/common/{otherId}")
+    public ResponseEntity<List<UserDto>> readCommonFriends(@PathVariable Integer id, @PathVariable Integer otherId) {
+        log.info("GET {}/friends/common/{} - запрос списка общих друзей пользователя", id, otherId);
+
+        return new ResponseEntity<>(userService.readCommonFriends(id, otherId), HttpStatus.OK);
+    }
 }

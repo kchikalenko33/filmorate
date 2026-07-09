@@ -6,10 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.User;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static ru.yandex.practicum.filmorate.util.Validator.prepareUser;
 
@@ -86,14 +83,11 @@ public class InMemoryUserStorage implements UserStorage{
     public Object deleteFriend(Integer id, Integer friendId) {
         User user = readById(id);
         User friend = readById(friendId);
-        if (user.getFriends().contains(friendId) && friend.getFriends().contains(id)) {
-            user.getFriends().remove(friendId);
-            friend.getFriends().remove(id);
-            log.info("");
-        } else {
-            log.warn("");
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
+
+        user.getFriends().remove(friendId);
+        friend.getFriends().remove(id);
+
+        log.info("UserStorage: пользователь id={} удалил из друзей пользователя id={}", id, friendId);
 
         return Map.of("result", "ok");
     }
@@ -109,5 +103,26 @@ public class InMemoryUserStorage implements UserStorage{
                 id, friends.size());
 
         return friends;
+    }
+
+    @Override
+    public List<User> readCommonFriends(Integer id, Integer otherId) {
+        User user = readById(id);
+        User otherUser = readById(otherId);
+
+        Set<Integer> temp = new HashSet<>(otherUser.getFriends());
+        Set<Integer> commonFriendsIds = new HashSet<>();
+
+        for (int value : user.getFriends()) {
+            if (temp.contains(value)) commonFriendsIds.add(value);
+        }
+
+        List<User> commonFriends = new ArrayList<>();
+        commonFriendsIds.forEach(i -> commonFriends.add(readById(i)));
+
+        log.info("UserStorage: получен список общих друзей пользователя id={} с другим пользователем otherId={}, " +
+                        "количество={}", id, otherId, commonFriends.size());
+
+        return commonFriends;
     }
 }

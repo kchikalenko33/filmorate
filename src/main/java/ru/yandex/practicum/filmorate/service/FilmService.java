@@ -30,4 +30,20 @@ public class FilmService {
     public List<FilmDto> readAll() {
         return filmsToDto(inMemoryFilmStorage.readAll());
     }
+
+    public FilmDto readById(Integer id) {
+        return filmToDto(inMemoryFilmStorage.readById(id));
+    }
+
+    public Object addLike(Integer id, Integer userId) {
+        return inMemoryFilmStorage.addLike(id, userId);
+    }
+
+    public Object deleteLike(Integer id, Integer userId) {
+        return inMemoryFilmStorage.deleteLike(id, userId);
+    }
+
+    public List<FilmDto> readPopular(Integer count) {
+        return filmsToDto(inMemoryFilmStorage.readPopular(count));
+    }
 }

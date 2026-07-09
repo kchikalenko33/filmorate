@@ -21,5 +21,7 @@ public class Film {
     LocalDate releaseDate;
     Integer duration;
     Integer rate;
+
+    @Builder.Default
     Set<Integer> likes = new HashSet<>();
 }

@@ -16,4 +16,7 @@ public interface UserStorage {
     Object deleteFriend(Integer id, Integer friendId);
 
     List<User> readFriends(Integer id);
+
+    List<User> readCommonFriends(Integer id, Integer otherId);
+
 }

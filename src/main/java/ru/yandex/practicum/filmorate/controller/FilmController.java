@@ -44,5 +44,31 @@ public class FilmController {
         return new ResponseEntity<>(filmService.readAll(), HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FilmDto> readById(@PathVariable Integer id) {
+        log.info("GET /films/{} - запрос получения фильма", id);
 
+        return new ResponseEntity<>(filmService.readById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}/like/{userId}")
+    public ResponseEntity<?> addLike(@PathVariable Integer id, @PathVariable Integer userId) {
+        log.info("PUT /films/{}/like/{} - проставление лайка фильму", id, userId);
+
+        return new ResponseEntity<>(filmService.addLike(id, userId), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/like/{userId}")
+    public ResponseEntity<?> deleteLike(@PathVariable Integer id, @PathVariable Integer userId) {
+        log.info("DELETE /films/{}/like/{} - удаление лайка у фильма", id, userId);
+
+        return new ResponseEntity<>(filmService.deleteLike(id, userId), HttpStatus.OK);
+    }
+
+    @GetMapping("popular")
+    public ResponseEntity<List<FilmDto>> readPopular(@RequestParam(value = "10") Integer count) {
+        log.info("");
+
+        return new ResponseEntity<>(filmService.readPopular(count), HttpStatus.OK);
+    }
 }
