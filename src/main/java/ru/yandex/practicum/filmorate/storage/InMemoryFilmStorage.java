@@ -3,6 +3,7 @@ package ru.yandex.practicum.filmorate.storage;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,7 +19,13 @@ import java.util.stream.Collectors;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class InMemoryFilmStorage implements FilmStorage {
     final Map<Integer, Film> films = new HashMap<>();
+    UserStorage userStorage;
     Integer idGen = 1;
+
+    @Autowired
+    public InMemoryFilmStorage(UserStorage userStorage) {
+        this.userStorage = userStorage;
+    }
 
     @Override
     public Film create(Film film) {
@@ -69,6 +76,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Object addLike(Integer id, Integer userId) {
         Film film = readById(id);
+        userStorage.readById(userId);
 
         film.getLikes().add(userId);
 
@@ -80,6 +88,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     @Override
     public Object deleteLike(Integer id, Integer userId) {
         Film film = readById(id);
+        userStorage.readById(userId);
 
         film.getLikes().remove(userId);
 
@@ -90,6 +99,7 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public List<Film> readPopular(Integer count) {
+        log.info("");
         return films.values().stream()
                 .sorted(((o1, o2) -> o2.getLikes().size() - o1.getLikes().size()))
                 .limit(count)

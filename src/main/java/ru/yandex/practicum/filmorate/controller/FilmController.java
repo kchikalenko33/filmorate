@@ -62,13 +62,13 @@ public class FilmController {
     public ResponseEntity<?> deleteLike(@PathVariable Integer id, @PathVariable Integer userId) {
         log.info("DELETE /films/{}/like/{} - удаление лайка у фильма", id, userId);
 
+
         return new ResponseEntity<>(filmService.deleteLike(id, userId), HttpStatus.OK);
     }
 
     @GetMapping("popular")
-    public ResponseEntity<List<FilmDto>> readPopular(@RequestParam(value = "10") Integer count) {
+    public ResponseEntity<List<FilmDto>> readPopular(@RequestParam(value = "count", defaultValue = "10") Integer count) {
         log.info("");
-
         return new ResponseEntity<>(filmService.readPopular(count), HttpStatus.OK);
     }
 }
