@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -22,4 +23,11 @@ public class User {
 
     @Builder.Default
     Set<Integer> friends = new HashSet<>();
+
+    public Map<String, Object> toMap() {
+        return Map.of("email", email,
+                "login", login,
+                "name", name,
+                "birthday", birthday);
+    }
 }

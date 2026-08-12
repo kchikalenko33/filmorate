@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @UtilityClass
-@Builder
 public class UserMapper {
     public static User userFromDto(UserDto userDto) {
         return User.builder()

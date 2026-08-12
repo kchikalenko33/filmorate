@@ -6,10 +6,14 @@ import java.util.List;
 
 public interface UserStorage {
     User create(User user);
+
     User update(User user);
+
     List<User> readAll();
 
     User readById(Integer id);
+
+    void deleteUser(Integer id);
 
     Object addFriend(Integer id, Integer friendId);
 

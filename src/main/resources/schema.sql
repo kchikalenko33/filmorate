@@ -1,0 +1,67 @@
+DROP TABLE IF EXISTS film_genres CASCADE;
+DROP TABLE IF EXISTS film_mpa CASCADE;
+DROP TABLE IF EXISTS likes CASCADE;
+DROP TABLE IF EXISTS friends CASCADE;
+DROP TABLE IF EXISTS films CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS mpa CASCADE;
+DROP TABLE IF EXISTS genres CASCADE;
+
+CREATE TABLE IF NOT EXISTS mpa (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS genres (
+    id INTEGER PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) NOT NULL,
+    login VARCHAR(100) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    birthday TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS films (
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    description VARCHAR(200),
+    releaseDate TIMESTAMP NOT NULL,
+    duration INTEGER NOT NULL,
+    mpa_id INTEGER REFERENCES mpa(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS film_genres (
+    film_id INTEGER,
+    genre_id INTEGER,
+    PRIMARY KEY (film_id, genre_id),
+    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES genres(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS film_mpa (
+    film_id INTEGER,
+    mpa_id INTEGER,
+    PRIMARY KEY (film_id, mpa_id),
+    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE,
+    FOREIGN KEY (mpa_id) REFERENCES mpa(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS friends (
+    user_id INTEGER,
+    friend_id INTEGER,
+    PRIMARY KEY (user_id, friend_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (friend_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS likes (
+    user_id INTEGER,
+    film_id INTEGER,
+    PRIMARY KEY (user_id, film_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
+);

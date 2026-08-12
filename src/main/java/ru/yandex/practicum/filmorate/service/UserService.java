@@ -1,10 +1,9 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.UserDto;
-import ru.yandex.practicum.filmorate.storage.InMemoryUserStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.util.List;
@@ -16,7 +15,7 @@ public class UserService {
     private final UserStorage userStorage;
 
     @Autowired
-    public UserService(InMemoryUserStorage userStorage) {
+    public UserService(@Qualifier("DbUser") UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
@@ -24,7 +23,7 @@ public class UserService {
         return userToDto(userStorage.create(userFromDto(userDto)));
     }
 
-    public @Nullable UserDto update(UserDto userDto) {
+    public UserDto update(UserDto userDto) {
         return userToDto(userStorage.update(userFromDto(userDto)));
     }
 

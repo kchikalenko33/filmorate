@@ -4,11 +4,11 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import ru.yandex.practicum.filmorate.model.Film;
-import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.util.Validator;
 
 import java.util.*;
@@ -23,7 +23,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     Integer idGen = 1;
 
     @Autowired
-    public InMemoryFilmStorage(UserStorage userStorage) {
+    public InMemoryFilmStorage(@Qualifier("DbUser") UserStorage userStorage) {
         this.userStorage = userStorage;
     }
 
@@ -71,6 +71,11 @@ public class InMemoryFilmStorage implements FilmStorage {
                     "Фильм с id=" + id + " не найден");
         }
         return film;
+    }
+
+    @Override
+    public void deleteFilm(Integer id) {
+
     }
 
     @Override

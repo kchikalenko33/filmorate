@@ -21,15 +21,14 @@ public class FilmDto {
     @Positive
     Integer id;
     @NotNull
-            @NotBlank
+    @NotBlank
     String name;
     @Size(max = 200)
     String description;
     LocalDate releaseDate;
     @Positive
     Integer duration;
-    @Positive
-    Integer rate;
+    Mpa mpa;
 
     @Builder.Default
     Set<Integer> likes = new HashSet<>();

@@ -67,6 +67,11 @@ public class InMemoryUserStorage implements UserStorage{
     }
 
     @Override
+    public void deleteUser(Integer id) {
+
+    }
+
+    @Override
     public Object addFriend(Integer id, Integer friendId) {
         User user = readById(id);
         User friend = readById(friendId);

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @UtilityClass
-@Builder
 public class FilmMapper {
     public Film filmFromDto(FilmDto filmDto) {
         return Film.builder()
@@ -19,7 +18,7 @@ public class FilmMapper {
                 .description(filmDto.getDescription())
                 .releaseDate(filmDto.getReleaseDate())
                 .duration(filmDto.getDuration())
-                .rate(filmDto.getRate())
+                .mpa(filmDto.getMpa())
                 .likes(filmDto.getLikes() == null ? new HashSet<>() : filmDto.getLikes())
                 .build();
     }
@@ -31,7 +30,7 @@ public class FilmMapper {
                 .description(film.getDescription())
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
-                .rate(film.getRate())
+                .mpa(film.getMpa())
                 .likes(film.getLikes() == null ? new HashSet<>() : film.getLikes())
                 .build();
     }
