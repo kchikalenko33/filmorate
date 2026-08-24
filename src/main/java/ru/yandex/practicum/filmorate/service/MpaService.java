@@ -6,6 +6,8 @@ import ru.yandex.practicum.filmorate.model.MpaDto;
 import ru.yandex.practicum.filmorate.storage.MpaStorage;
 import ru.yandex.practicum.filmorate.util.MpaMapper;
 
+import java.util.List;
+
 @Service
 public class MpaService {
     private MpaStorage storage;
@@ -18,5 +20,9 @@ public class MpaService {
 
     public MpaDto read(Integer id) {
         return MpaMapper.toDto(storage.read(id));
+    }
+
+    public List<MpaDto> readAll() {
+        return MpaMapper.toDtoList(storage.readAll());
     }
 }

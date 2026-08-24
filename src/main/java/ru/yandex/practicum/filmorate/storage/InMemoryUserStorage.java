@@ -76,8 +76,8 @@ public class InMemoryUserStorage implements UserStorage{
         User user = readById(id);
         User friend = readById(friendId);
 
-        user.getFriends().add(friendId);
-        friend.getFriends().add(id);
+        user.getFriends().add(friend);
+        friend.getFriends().add(user);
 
         log.info("UserStorage: пользователь id={} добавил в друзья пользователя id={}", id, friendId);
 
@@ -102,7 +102,7 @@ public class InMemoryUserStorage implements UserStorage{
         User user = readById(id);
         List<User> friends = new ArrayList<>();
 
-        user.getFriends().forEach(i -> friends.add(readById(i)));
+        user.getFriends().forEach(i -> friends.add(readById(i.getId())));
 
         log.info("UserStorage: получен список друзей пользователя id={}, количество={}",
                 id, friends.size());
@@ -115,19 +115,19 @@ public class InMemoryUserStorage implements UserStorage{
         User user = readById(id);
         User otherUser = readById(otherId);
 
-        Set<Integer> temp = new HashSet<>(otherUser.getFriends());
-        Set<Integer> commonFriendsIds = new HashSet<>();
+        Set<User> temp = new HashSet<>(otherUser.getFriends());
+        Set<User> commonFriends = new HashSet<>();
 
-        for (int value : user.getFriends()) {
-            if (temp.contains(value)) commonFriendsIds.add(value);
+        for (User value : user.getFriends()) {
+            if (temp.contains(value)) commonFriends.add(value);
         }
 
-        List<User> commonFriends = new ArrayList<>();
-        commonFriendsIds.forEach(i -> commonFriends.add(readById(i)));
+//        List<User> commonFriends = new ArrayList<>();
+//        commonFriends.forEach(i -> commonFriends.add(readById(i.getId())));
 
         log.info("UserStorage: получен список общих друзей пользователя id={} с другим пользователем otherId={}, " +
                         "количество={}", id, otherId, commonFriends.size());
 
-        return commonFriends;
+        return new ArrayList<>(commonFriends);
     }
 }

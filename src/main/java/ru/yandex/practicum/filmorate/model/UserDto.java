@@ -28,5 +28,5 @@ public class UserDto {
     LocalDate birthday;
 
     @Builder.Default
-    Set<Integer> friends = new HashSet<>();
+    Set<User> friends = new HashSet<>();
 }

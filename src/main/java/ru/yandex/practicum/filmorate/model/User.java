@@ -22,7 +22,7 @@ public class User {
     LocalDate birthday;
 
     @Builder.Default
-    Set<Integer> friends = new HashSet<>();
+    Set<User> friends = new HashSet<>();
 
     public Map<String, Object> toMap() {
         return Map.of("email", email,

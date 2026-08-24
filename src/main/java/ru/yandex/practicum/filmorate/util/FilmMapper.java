@@ -19,6 +19,7 @@ public class FilmMapper {
                 .releaseDate(filmDto.getReleaseDate())
                 .duration(filmDto.getDuration())
                 .mpa(filmDto.getMpa())
+                .genres(filmDto.getGenres())
                 .likes(filmDto.getLikes() == null ? new HashSet<>() : filmDto.getLikes())
                 .build();
     }
@@ -31,6 +32,7 @@ public class FilmMapper {
                 .releaseDate(film.getReleaseDate())
                 .duration(film.getDuration())
                 .mpa(film.getMpa())
+                .genres(film.getGenres())
                 .likes(film.getLikes() == null ? new HashSet<>() : film.getLikes())
                 .build();
     }

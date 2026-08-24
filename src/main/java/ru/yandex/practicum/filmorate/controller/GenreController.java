@@ -8,31 +8,32 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.yandex.practicum.filmorate.model.MpaDto;
-import ru.yandex.practicum.filmorate.service.MpaService;
+import ru.yandex.practicum.filmorate.model.GenreDto;
+import ru.yandex.practicum.filmorate.service.GenreService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @Slf4j
-@RequestMapping("mpa")
-public class MpaController {
-    private MpaService mpaService;
+@RequestMapping("genres")
+public class GenreController {
+    private GenreService genreService;
 
     @Autowired
-    public MpaController(MpaService mpaService) {
-        this.mpaService = mpaService;
+    public GenreController(GenreService genreService) {
+        this.genreService = genreService;
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MpaDto> read(@PathVariable Integer id) {
+    public ResponseEntity<GenreDto> read(@PathVariable Integer id) {
         log.info("");
-        return new  ResponseEntity<>(mpaService.read(id), HttpStatus.OK);
+        return new ResponseEntity<>(genreService.read(id), HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<MpaDto>> readAll() {
+    public ResponseEntity<Set<GenreDto>> readAll() {
         log.info("");
-        return new ResponseEntity<>(mpaService.readAll(), HttpStatus.OK);
+        return new ResponseEntity<>(genreService.readAll(), HttpStatus.OK);
     }
 }

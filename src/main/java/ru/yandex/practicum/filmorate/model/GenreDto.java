@@ -9,15 +9,15 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Genre {
+public class GenreDto {
     private int id;
     private String name;
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Genre genre = (Genre) o;
-        return id == genre.id;
+        GenreDto genreDto = (GenreDto) o;
+        return id == genreDto.id;
     }
 
     @Override

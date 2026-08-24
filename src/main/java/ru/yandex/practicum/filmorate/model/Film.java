@@ -21,8 +21,9 @@ public class Film {
     String description;
     LocalDate releaseDate;
     Integer duration;
+    Integer rate;
     Mpa mpa;
-    List<Genre> genre;
+    Set<Genre> genres;
 
     @Builder.Default
     Set<Integer> likes = new HashSet<>();
@@ -32,7 +33,10 @@ public class Film {
                 "description", description,
                 "releaseDate", releaseDate,
                 "duration", duration,
+                "rate", rate == null ? 0 : rate,
                 "mpa_id", mpa.getId()
                 );
     }
+
+
 }
