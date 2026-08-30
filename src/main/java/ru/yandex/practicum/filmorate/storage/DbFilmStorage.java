@@ -166,6 +166,24 @@ public class DbFilmStorage implements FilmStorage {
         return films;
     }
 
+    @Override
+    public Set<Film> commonFilms(Integer userId, Integer friendId) {
+        String sql = """
+                SELECT *
+                FROM films f
+                LEFT JOIN likes l ON f.id = l.film_id
+                LEFT JOIN likes l2 ON f.id = l2.film_id
+                WHERE l.user_id = ? AND l2.user_id = ?
+                GROUP BY f.id
+                ORDER BY COUNT(l.user_id) DESC
+                """;
+
+        Set<Film> films = new HashSet<>(jdbcTemplate.query(sql, this::mapToFilm, userId, friendId));
+        log.info("DbFilmStorage: получен список общих фильмов у пользователей с id = {} и c id = {}", userId, friendId);
+
+        return films;
+    }
+
     private Film mapToFilm(ResultSet rs, int rowNum) throws SQLException {
         return Film.builder()
                 .id(rs.getInt("id"))

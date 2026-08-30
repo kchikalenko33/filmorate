@@ -58,3 +58,8 @@ CREATE TABLE IF NOT EXISTS likes (
     film_id INTEGER REFERENCES films(id) ON DELETE CASCADE,
     PRIMARY KEY (user_id, film_id)
 );
+
+CREATE TABLE IF NOT EXISTS feeds (
+event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+timestamp BIGINT ,
+)

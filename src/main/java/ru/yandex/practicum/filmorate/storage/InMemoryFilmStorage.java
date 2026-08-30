@@ -110,4 +110,9 @@ public class InMemoryFilmStorage implements FilmStorage {
                 .limit(count)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Set<Film> commonFilms(Integer userId, Integer friendId) {
+        return Set.of();
+    }
 }

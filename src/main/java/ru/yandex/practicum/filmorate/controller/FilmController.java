@@ -10,6 +10,7 @@ import ru.yandex.practicum.filmorate.model.FilmDto;
 import ru.yandex.practicum.filmorate.service.FilmService;
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RestController
@@ -51,6 +52,13 @@ public class FilmController {
         return new ResponseEntity<>(filmService.readById(id), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        log.info("DELETE /films/{} - запрос удаления фильма", id);
+        filmService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping("/{id}/like/{userId}")
     public ResponseEntity<?> addLike(@PathVariable Integer id, @PathVariable Integer userId) {
         log.info("PUT /films/{}/like/{} - проставление лайка фильму", id, userId);
@@ -70,5 +78,11 @@ public class FilmController {
     public ResponseEntity<List<FilmDto>> readPopular(@RequestParam(value = "count", defaultValue = "10") Integer count) {
         log.info("");
         return new ResponseEntity<>(filmService.readPopular(count), HttpStatus.OK);
+    }
+
+    @GetMapping("/common")
+    public ResponseEntity<Set<FilmDto>> commonFilms(@RequestParam Integer userId, Integer friendId) {
+        log.info("GET /common?userId={}&friendId={} - получение общих фильмов у пользователей", userId, friendId);
+        return new ResponseEntity<>(filmService.commonFilms(userId, friendId), HttpStatus.OK);
     }
 }

@@ -35,6 +35,10 @@ public class UserService {
         return userToDto(userStorage.readById(id));
     }
 
+    public void delete(Integer id) {
+        userStorage.deleteUser(id);
+    }
+
     public Object addFriend(Integer id, Integer friendId) {
         return userStorage.addFriend(id, friendId);
     }

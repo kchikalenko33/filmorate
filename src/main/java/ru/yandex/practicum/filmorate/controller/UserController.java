@@ -51,6 +51,13 @@ public class UserController {
         return new ResponseEntity<>(userService.readById(id), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
+        log.info("DELETE /users/{} - запрос удаления пользователя по id", id);
+        userService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PutMapping("/{id}/friends/{friendId}")
     public ResponseEntity<?> addFriend(@PathVariable Integer id, @PathVariable Integer friendId) {
         log.info("PUT /users/{}/friends/{} - добавление в друзья", id, friendId);

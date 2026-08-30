@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.FilmDto;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static ru.yandex.practicum.filmorate.util.FilmMapper.*;
 
@@ -45,5 +48,13 @@ public class FilmService {
 
     public List<FilmDto> readPopular(Integer count) {
         return filmsToDto(filmStorage.readPopular(count));
+    }
+
+    public void delete(Integer id) {
+        filmStorage.deleteFilm(id);
+    }
+
+    public Set<FilmDto> commonFilms(Integer userId, Integer friendId) {
+        return new HashSet<>(filmsToDto(new ArrayList<>(filmStorage.commonFilms(userId, friendId))));
     }
 }
