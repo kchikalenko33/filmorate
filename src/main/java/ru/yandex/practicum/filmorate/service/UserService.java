@@ -3,20 +3,26 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.Feed;
+import ru.yandex.practicum.filmorate.model.FeedDto;
 import ru.yandex.practicum.filmorate.model.UserDto;
+import ru.yandex.practicum.filmorate.storage.FeedStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
 import java.util.List;
 
 import static ru.yandex.practicum.filmorate.util.UserMapper.*;
+import static ru.yandex.practicum.filmorate.util.FeedMapper.*;
 
 @Service
 public class UserService {
     private final UserStorage userStorage;
+    private final FeedStorage feedStorage;
 
     @Autowired
-    public UserService(@Qualifier("DbUser") UserStorage userStorage) {
+    public UserService(@Qualifier("DbUser") UserStorage userStorage, FeedStorage feedStorage) {
         this.userStorage = userStorage;
+        this.feedStorage = feedStorage;
     }
 
     public UserDto create(UserDto userDto) {
@@ -53,5 +59,9 @@ public class UserService {
 
     public List<UserDto> readCommonFriends(Integer id, Integer otherId) {
         return usersToDto(userStorage.readCommonFriends(id, otherId));
+    }
+
+    public List<FeedDto> readFeed(Integer id) {
+        return listToDto(feedStorage.readFeed(id));
     }
 }

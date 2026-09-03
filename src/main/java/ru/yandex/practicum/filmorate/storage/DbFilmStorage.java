@@ -132,6 +132,7 @@ public class DbFilmStorage implements FilmStorage {
         String sql = "INSERT INTO likes (user_id, film_id) VALUES (?, ?)";
 
         jdbcTemplate.update(sql, userId, id);
+        //feedStorage.create() - понять откуда взять сам объект Feed
 
         log.info("DbFilmStorage: лайк добавлен, фильм ID={}, пользователь ID={}", id, userId);
         return Map.of("result", "ok");

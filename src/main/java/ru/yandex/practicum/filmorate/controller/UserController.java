@@ -3,9 +3,11 @@ package ru.yandex.practicum.filmorate.controller;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.yandex.practicum.filmorate.model.FeedDto;
 import ru.yandex.practicum.filmorate.model.UserDto;
 import ru.yandex.practicum.filmorate.service.UserService;
 
@@ -84,5 +86,12 @@ public class UserController {
         log.info("GET {}/friends/common/{} - запрос списка общих друзей пользователя", id, otherId);
 
         return new ResponseEntity<>(userService.readCommonFriends(id, otherId), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/feed")
+    public ResponseEntity<List<FeedDto>> readFeed(@PathVariable Integer id) {
+        log.info("GET {}/feed - запрос получения последних событий у пользователя", id);
+
+        return new ResponseEntity<>(userService.readFeed(id), HttpStatus.OK);
     }
 }

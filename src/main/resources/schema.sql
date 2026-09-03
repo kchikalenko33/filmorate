@@ -8,9 +8,9 @@ DROP TABLE IF EXISTS mpa CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
 
 CREATE TABLE IF NOT EXISTS mpa (
-    id INTEGER PRIMARY KEY,
-    name VARCHAR(100) NOT NULL
-);
+                                   id INTEGER PRIMARY KEY AUTO_INCREMENT,
+                                   name VARCHAR(50) NOT NULL
+    );
 
 CREATE TABLE IF NOT EXISTS genres (
     id INTEGER PRIMARY KEY,
@@ -61,5 +61,11 @@ CREATE TABLE IF NOT EXISTS likes (
 
 CREATE TABLE IF NOT EXISTS feeds (
 event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-timestamp BIGINT ,
+timestamp BIGINT,
+    eventType VARCHAR(250),
+operation VARCHAR(250),
+    userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    entityId INTEGER
 )
+
+
