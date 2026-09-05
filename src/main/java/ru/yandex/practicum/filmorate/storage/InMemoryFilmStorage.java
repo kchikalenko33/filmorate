@@ -79,7 +79,7 @@ public class InMemoryFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Object addLike(Integer id, Integer userId) {
+    public Film addLike(Integer id, Integer userId) {
         Film film = readById(id);
         userStorage.readById(userId);
 
@@ -87,11 +87,11 @@ public class InMemoryFilmStorage implements FilmStorage {
 
         log.info("FilmStorage: фильму id={} добавлен лайк от пользователя id={}", id, userId);
 
-        return Map.of("res", "ok");
+        return film;
     }
 
     @Override
-    public Object deleteLike(Integer id, Integer userId) {
+    public Film deleteLike(Integer id, Integer userId) {
         Film film = readById(id);
         userStorage.readById(userId);
 
@@ -99,7 +99,7 @@ public class InMemoryFilmStorage implements FilmStorage {
 
         log.info(" ");
 
-        return Map.of("res", "ok");
+        return film;
     }
 
     @Override

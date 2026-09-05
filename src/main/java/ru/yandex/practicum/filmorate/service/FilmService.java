@@ -3,9 +3,12 @@ package ru.yandex.practicum.filmorate.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.FilmDto;
+import ru.yandex.practicum.filmorate.storage.FeedStorage;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -16,9 +19,11 @@ import static ru.yandex.practicum.filmorate.util.FilmMapper.*;
 @Service
 public class FilmService {
     private final FilmStorage filmStorage;
+    private final FeedStorage feedStorage;
 
-    public FilmService(@Qualifier("DbFilm") FilmStorage filmStorage) {
+    public FilmService(@Qualifier("DbFilm") FilmStorage filmStorage, FeedStorage feedStorage) {
         this.filmStorage = filmStorage;
+        this.feedStorage = feedStorage;
     }
 
     public FilmDto create(FilmDto filmDto) {
@@ -38,12 +43,32 @@ public class FilmService {
         return filmToDto(filmStorage.readById(id));
     }
 
-    public Object addLike(Integer id, Integer userId) {
-        return filmStorage.addLike(id, userId);
+    public FilmDto addLike(Integer id, Integer userId) {
+        FilmDto film = filmToDto(filmStorage.addLike(id, userId));
+        Feed feed = Feed.builder()
+                .timestamp(Instant.now().toEpochMilli())
+                .eventType("LIKE")
+                .operation("ADD")
+                .userId(userId)
+                .entityId(id)
+                .build();
+        feedStorage.create(feed);
+
+        return film;
     }
 
-    public Object deleteLike(Integer id, Integer userId) {
-        return filmStorage.deleteLike(id, userId);
+    public FilmDto deleteLike(Integer id, Integer userId) {
+        FilmDto film = filmToDto(filmStorage.deleteLike(id, userId));
+        Feed feed = Feed.builder()
+                .timestamp(Instant.now().toEpochMilli())
+                .eventType("LIKE")
+                .operation("REMOVE")
+                .userId(userId)
+                .entityId(id)
+                .build();
+        feedStorage.create(feed);
+
+        return film;
     }
 
     public List<FilmDto> readPopular(Integer count) {

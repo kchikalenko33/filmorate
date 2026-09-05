@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.model.UserDto;
 import ru.yandex.practicum.filmorate.storage.FeedStorage;
 import ru.yandex.practicum.filmorate.storage.UserStorage;
 
+import java.time.Instant;
 import java.util.List;
 
 import static ru.yandex.practicum.filmorate.util.UserMapper.*;
@@ -45,12 +46,32 @@ public class UserService {
         userStorage.deleteUser(id);
     }
 
-    public Object addFriend(Integer id, Integer friendId) {
-        return userStorage.addFriend(id, friendId);
+    public UserDto addFriend(Integer id, Integer friendId) {
+        UserDto user = userToDto(userStorage.addFriend(id, friendId));
+        Feed feed = new Feed(
+                Instant.now().toEpochMilli(),
+                id,
+                "FRIEND",
+                "ADD",
+                -1,
+                friendId
+        );
+        feedStorage.create(feed);
+        return user;
     }
 
-    public Object deleteFriend(Integer id, Integer friendId) {
-        return userStorage.deleteFriend(id, friendId);
+    public UserDto deleteFriend(Integer id, Integer friendId) {
+        UserDto user = userToDto(userStorage.deleteFriend(id, friendId));
+        Feed feed = new Feed(
+                Instant.now().toEpochMilli(),
+                id,
+                "FRIEND",
+                "REMOVE",
+                -1,
+                friendId
+        );
+        feedStorage.create(feed);
+        return user;
     }
 
     public List<UserDto> readFriends(Integer id) {

@@ -60,10 +60,10 @@ CREATE TABLE IF NOT EXISTS likes (
 );
 
 CREATE TABLE IF NOT EXISTS feeds (
-event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
-timestamp BIGINT,
+    event_id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    timestamp BIGINT,
     eventType VARCHAR(250),
-operation VARCHAR(250),
+    operation VARCHAR(250),
     userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
     entityId INTEGER
 )

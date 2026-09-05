@@ -3,7 +3,6 @@ package ru.yandex.practicum.filmorate.util;
 import lombok.experimental.UtilityClass;
 import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.FeedDto;
-import ru.yandex.practicum.filmorate.model.FilmDto;
 
 import java.util.List;
 
@@ -13,7 +12,6 @@ public class FeedMapper {
         return Feed.builder()
                 .timestamp(feedDto.getTimestamp())
                 .userId(feedDto.getUserId())
-                .eventId(feedDto.getEventId())
                 .operation(feedDto.getOperation())
                 .eventId(feedDto.getEventId())
                 .entityId(feedDto.getEntityId())
@@ -22,15 +20,23 @@ public class FeedMapper {
 
     public FeedDto toDto(Feed feed) {
         return FeedDto.builder()
-                //todo
+                .timestamp(feed.getTimestamp())
+                .userId(feed.getUserId())
+                .eventId(feed.getEventId())
+                .operation(feed.getOperation())
+                .entityId(feed.getEntityId())
                 .build();
     }
 
     public List<Feed> listFromDto(List<FeedDto> listFeedDto) {
-        return List.of();
+        return listFeedDto.stream()
+                .map(FeedMapper::fromDto)
+                .toList();
     }
 
     public List<FeedDto> listToDto(List<Feed> listFeed) {
-        return List.of();
+        return listFeed.stream()
+                .map(FeedMapper::toDto)
+                .toList();
     }
 }

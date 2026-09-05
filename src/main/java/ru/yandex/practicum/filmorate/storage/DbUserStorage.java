@@ -89,7 +89,7 @@ public class DbUserStorage implements UserStorage {
     }
 
     @Override
-    public Object addFriend(Integer id, Integer friendId) {
+    public User addFriend(Integer id, Integer friendId) {
         readById(id);
         readById(friendId);
 
@@ -116,7 +116,7 @@ public class DbUserStorage implements UserStorage {
     }
 
     @Override
-    public Object deleteFriend(Integer id, Integer friendId) {
+    public User deleteFriend(Integer id, Integer friendId) {
         String sql = "DELETE FROM friends where user_id = ? AND friend_id = ?";
 
         readById(id);
@@ -127,7 +127,7 @@ public class DbUserStorage implements UserStorage {
         } else {
             log.info("DbUserStorage: пользователи с ID={} и ID={} больше не друзья", id, friendId);
         }
-        return Map.of("result", "ok");
+        return readById(id);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class InMemoryUserStorage implements UserStorage{
     }
 
     @Override
-    public Object addFriend(Integer id, Integer friendId) {
+    public User addFriend(Integer id, Integer friendId) {
         User user = readById(id);
         User friend = readById(friendId);
 
@@ -81,11 +81,11 @@ public class InMemoryUserStorage implements UserStorage{
 
         log.info("UserStorage: пользователь id={} добавил в друзья пользователя id={}", id, friendId);
 
-        return Map.of("result", "ok");
+        return user;
     }
 
     @Override
-    public Object deleteFriend(Integer id, Integer friendId) {
+    public User deleteFriend(Integer id, Integer friendId) {
         User user = readById(id);
         User friend = readById(friendId);
 
@@ -94,7 +94,7 @@ public class InMemoryUserStorage implements UserStorage{
 
         log.info("UserStorage: пользователь id={} удалил из друзей пользователя id={}", id, friendId);
 
-        return Map.of("result", "ok");
+        return user;
     }
 
     @Override

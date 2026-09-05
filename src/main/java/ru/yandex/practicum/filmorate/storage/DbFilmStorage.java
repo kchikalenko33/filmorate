@@ -128,18 +128,17 @@ public class DbFilmStorage implements FilmStorage {
     }
 
     @Override
-    public Object addLike(Integer id, Integer userId) {
+    public Film addLike(Integer id, Integer userId) {
         String sql = "INSERT INTO likes (user_id, film_id) VALUES (?, ?)";
 
         jdbcTemplate.update(sql, userId, id);
-        //feedStorage.create() - понять откуда взять сам объект Feed
 
         log.info("DbFilmStorage: лайк добавлен, фильм ID={}, пользователь ID={}", id, userId);
-        return Map.of("result", "ok");
+        return readById(id);
     }
 
     @Override
-    public Object deleteLike(Integer id, Integer userId) {
+    public Film deleteLike(Integer id, Integer userId) {
         String sql = "DELETE FROM likes where user_id = ? AND film_id = ?";
 
         if (jdbcTemplate.update(sql, userId, id) == 0) {
@@ -147,7 +146,7 @@ public class DbFilmStorage implements FilmStorage {
         } else {
             log.info("DbFilmStorage: лайк удален, фильм ID={}, пользователь ID={}", id, userId);
         }
-        return Map.of("result", "ok");
+        return readById(id);
     }
 
     @Override

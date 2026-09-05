@@ -16,9 +16,9 @@ public interface FilmStorage {
 
     void deleteFilm(Integer id);
 
-    Object addLike(Integer id, Integer userId);
+    Film addLike(Integer id, Integer userId);
 
-    Object deleteLike(Integer id, Integer userId);
+    Film deleteLike(Integer id, Integer userId);
 
     List<Film> readPopular(Integer count);
 
