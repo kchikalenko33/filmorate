@@ -8,8 +8,8 @@ DROP TABLE IF EXISTS mpa CASCADE;
 DROP TABLE IF EXISTS genres CASCADE;
 
 CREATE TABLE IF NOT EXISTS mpa (
-                                   id INTEGER PRIMARY KEY AUTO_INCREMENT,
-                                   name VARCHAR(50) NOT NULL
+    id INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50) NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS genres (
@@ -66,6 +66,15 @@ CREATE TABLE IF NOT EXISTS feeds (
     operation VARCHAR(250),
     userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
     entityId INTEGER
-)
+);
+
+CREATE TABLE IF NOT EXISTS reviews (
+    reviewId INTEGER PRIMARY KEY AUTO_INCREMENT,
+    content VARCHAR(250),
+    isPositive BOOLEAN,
+    userId INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    filmId INTEGER REFERENCES films(id) ON DELETE CASCADE,
+    useful INTEGER
+);
 
 

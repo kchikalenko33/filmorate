@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 @RequestMapping("mpa")
 public class MpaController {
-    private MpaService mpaService;
+    private final MpaService mpaService;
 
     @Autowired
     public MpaController(MpaService mpaService) {
@@ -26,13 +26,13 @@ public class MpaController {
 
     @GetMapping("{id}")
     public ResponseEntity<MpaDto> read(@PathVariable Integer id) {
-        log.info("");
+        log.info("GET /mpa/{} - запрос получения рейтинга", id);
         return new  ResponseEntity<>(mpaService.read(id), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<MpaDto>> readAll() {
-        log.info("");
+        log.info("GET /mpa - запрос получения всех рейтингов");
         return new ResponseEntity<>(mpaService.readAll(), HttpStatus.OK);
     }
 }

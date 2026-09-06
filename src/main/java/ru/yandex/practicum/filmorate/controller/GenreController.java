@@ -11,14 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.model.GenreDto;
 import ru.yandex.practicum.filmorate.service.GenreService;
 
-import java.util.List;
 import java.util.Set;
 
 @RestController
 @Slf4j
 @RequestMapping("genres")
 public class GenreController {
-    private GenreService genreService;
+    private final GenreService genreService;
 
     @Autowired
     public GenreController(GenreService genreService) {
@@ -27,13 +26,13 @@ public class GenreController {
 
     @GetMapping("{id}")
     public ResponseEntity<GenreDto> read(@PathVariable Integer id) {
-        log.info("");
+        log.info("GET /genres/{} - запрос получения жанра", id);
         return new ResponseEntity<>(genreService.read(id), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<Set<GenreDto>> readAll() {
-        log.info("");
+        log.info("GET /genres - запрос получения всех жанров");
         return new ResponseEntity<>(genreService.readAll(), HttpStatus.OK);
     }
 }

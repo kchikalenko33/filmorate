@@ -2,25 +2,25 @@ package ru.yandex.practicum.filmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
-import ru.yandex.practicum.filmorate.model.Feed;
 import ru.yandex.practicum.filmorate.model.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Slf4j
 @Component("DbUser")
+@Primary
 public class DbUserStorage implements UserStorage {
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public DbUserStorage(JdbcTemplate jdbcTemplate) {
@@ -67,7 +67,7 @@ public class DbUserStorage implements UserStorage {
     public User readById(Integer id) {
         String sql = "SELECT * FROM users WHERE id = ?";
         try {
-            User user = jdbcTemplate.queryForObject(sql, (rs, rowNum) -> mapToUser(rs, rowNum), id);
+            User user = jdbcTemplate.queryForObject(sql, this::mapToUser, id);
             log.info("DbUserStorage: пользователь найден, ID={}, имя={}", id, user.getName());
             return user;
         } catch (Exception e) {

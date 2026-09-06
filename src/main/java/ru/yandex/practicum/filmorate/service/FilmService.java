@@ -1,6 +1,5 @@
 package ru.yandex.practicum.filmorate.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.yandex.practicum.filmorate.model.Feed;
@@ -51,6 +50,7 @@ public class FilmService {
                 .operation("ADD")
                 .userId(userId)
                 .entityId(id)
+                .eventId(-1)
                 .build();
         feedStorage.create(feed);
 
@@ -65,6 +65,7 @@ public class FilmService {
                 .operation("REMOVE")
                 .userId(userId)
                 .entityId(id)
+                .eventId(-1)
                 .build();
         feedStorage.create(feed);
 

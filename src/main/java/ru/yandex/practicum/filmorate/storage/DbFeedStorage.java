@@ -1,7 +1,6 @@
 package ru.yandex.practicum.filmorate.storage;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,9 +15,9 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Slf4j
 public class DbFeedStorage implements FeedStorage {
-    private static final Logger log = LoggerFactory.getLogger(DbFeedStorage.class);
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
     public DbFeedStorage(JdbcTemplate jdbcTemplate) {
@@ -33,6 +32,7 @@ public class DbFeedStorage implements FeedStorage {
         Map<String, Object> map = feed.toMap();
         Integer eventId = insert.executeAndReturnKey(map).intValue();
         feed.setEventId(eventId);
+        log.info("");
         return feed;
     }
 

@@ -2,6 +2,7 @@ package ru.yandex.practicum.filmorate.storage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -20,10 +21,11 @@ import java.util.Set;
 
 @Slf4j
 @Component("DbFilm")
+@Primary
 public class DbFilmStorage implements FilmStorage {
-    private JdbcTemplate jdbcTemplate;
-    private MpaStorage mpaStorage;
-    private GenreStorage genreStorage;
+    private final JdbcTemplate jdbcTemplate;
+    private final MpaStorage mpaStorage;
+    private final GenreStorage genreStorage;
 
     @Autowired
     public DbFilmStorage(JdbcTemplate jdbcTemplate, MpaStorage mpaStorage, GenreStorage genreStorage) {
