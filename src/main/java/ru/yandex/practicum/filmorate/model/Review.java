@@ -1,5 +1,7 @@
 package ru.yandex.practicum.filmorate.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,11 +23,11 @@ public class Review {
 
     public Map<String, Object> toMap() {
         return Map.of(
-                "content", content == null ? "" : content,
+                "content", content,
                 "isPositive", isPositive,
                 "userId", userId,
-                "filmId", filmId,
-                "useful", useful == null ? 0 : useful
+                "filmId", filmId
+          //      "useful", useful
         );
     }
 }

@@ -22,4 +22,8 @@ public class ReviewService {
     public ReviewDto update(ReviewDto reviewDto) {
         return ReviewMapper.toDto(reviewStorage.update(ReviewMapper.fromDto(reviewDto)));
     }
+
+    public ReviewDto readById(Integer reviewId) {
+        return ReviewMapper.toDto(reviewStorage.readById(reviewId));
+    }
 }

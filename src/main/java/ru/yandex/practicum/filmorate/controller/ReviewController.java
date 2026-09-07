@@ -1,5 +1,6 @@
 package ru.yandex.practicum.filmorate.controller;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class ReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<ReviewDto> create(@RequestBody ReviewDto review) {
+    public ResponseEntity<ReviewDto> create(@RequestBody @Valid ReviewDto review) {
         log.info("POST /reviews: Создание отзыва пользователя c ID={} для фильма c ID={}", review.getUserId(),
                 review.getFilmId());
 
@@ -28,9 +29,16 @@ public class ReviewController {
     }
 
     @PutMapping
-    public ResponseEntity<ReviewDto> update(@RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<ReviewDto> update(@RequestBody @Valid ReviewDto reviewDto) {
         log.info("PUT /reviews: Обновление ");
 
         return new ResponseEntity<>(reviewService.update(reviewDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ReviewDto> readById(@PathVariable Integer reviewId) {
+        log.info("GET reviews/{} - получение отзыва", reviewId);
+
+        return new ResponseEntity<>(reviewService.readById(reviewId), HttpStatus.OK);
     }
 }

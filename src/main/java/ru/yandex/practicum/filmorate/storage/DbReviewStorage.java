@@ -29,6 +29,7 @@ public class DbReviewStorage implements ReviewStorage{
     @Override
     public Review create(Review review) {
         if (review.getUserId() == null || review.getFilmId() == null) {
+            log.warn("юзер или фильм нул");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         filmStorage.readById(review.getFilmId());
@@ -39,7 +40,7 @@ public class DbReviewStorage implements ReviewStorage{
 
         Integer reviewId = insert.executeAndReturnKey(review.toMap()).intValue();
         review.setReviewId(reviewId);
-        log.info("");
+        log.info("DbReviewStorage: отзыв c ID={} создан",reviewId);
         return review;
     }
 
@@ -69,22 +70,24 @@ public class DbReviewStorage implements ReviewStorage{
         }
     }
 
-    private void readById(Integer reviewId) {
+    @Override
+    public Review readById(Integer reviewId) {
         String sql = """
                 SELECT *
                 FROM reviews
                 WHERE reviewId = ?
                 """;
         try {
-            Review review = jdbcTemplate.queryForObject(sql, this::mapToFilm, reviewId);
+            Review review = jdbcTemplate.queryForObject(sql, this::mapToReview, reviewId);
             log.info("DbReviewStorage: отзыв найден, ID={}", reviewId);
+            return review;
         } catch (Exception e) {
-            log.warn("DbReviewStorage: отзыв найден, ID={}", reviewId);
+            log.warn("DbReviewStorage: отзыв не найден, ID={}", reviewId);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с ID=" + reviewId + "не найден");
         }
     }
 
-    private Review mapToFilm(ResultSet rs, Integer rowNum) throws SQLException {
+    private Review mapToReview(ResultSet rs, Integer rowNum) throws SQLException {
         return Review.builder()
                 .reviewId(rs.getInt("reviewId"))
                 .content(rs.getString("content"))

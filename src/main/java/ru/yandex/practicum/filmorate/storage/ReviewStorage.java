@@ -7,4 +7,6 @@ public interface ReviewStorage {
     Review create(Review review);
 
     Review update(Review review);
+
+    Review readById(Integer reviewId);
 }
