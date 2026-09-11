@@ -11,6 +11,7 @@ import ru.yandex.practicum.filmorate.model.Review;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Component
 @Slf4j
@@ -41,7 +42,7 @@ public class DbReviewStorage implements ReviewStorage{
         Integer reviewId = insert.executeAndReturnKey(review.toMap()).intValue();
         review.setReviewId(reviewId);
         log.info("DbReviewStorage: отзыв c ID={} создан",reviewId);
-        return review;
+        return readById(review.getReviewId());
     }
 
     @Override
@@ -63,7 +64,7 @@ public class DbReviewStorage implements ReviewStorage{
 
         if (count != 0) {
             log.info("DbReviewStorage: отзыв с ID={} успешно обновлен", review.getReviewId());
-            return review;
+            return readById(review.getReviewId());
         } else {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,
                     "Отзыв с ID=" + review.getReviewId() + "не обновлен");
@@ -85,6 +86,37 @@ public class DbReviewStorage implements ReviewStorage{
             log.warn("DbReviewStorage: отзыв не найден, ID={}", reviewId);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Отзыв с ID=" + reviewId + "не найден");
         }
+    }
+
+    @Override
+    public void delete(Integer reviewId) {
+        String sql = """
+                DELETE FROM reviews WHERE reviewId = ?
+                """;
+        int count = jdbcTemplate.update(sql, reviewId);
+
+        if (count == 0) {
+            log.info("DbReviewStorage: Не удален отзыв с id={}", reviewId);
+        } else {
+            log.info("DbReviewStorage: Удален отзыв с id={}", reviewId);
+        }
+    }
+
+    @Override
+    public List<Review> readAllByFilmId(Integer count, Integer filmId) {
+        if (filmId == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+        filmStorage.readById(filmId);
+
+        String sql = """
+                SELECT TOP ? *
+                FROM reviews
+                WHERE filmId = ?
+                """;
+      List<Review> reviews = jdbcTemplate.query(sql, this::mapToReview, count, filmId);
+      log.info("DbReviewStorage: получен список фильмов по filmId={}", filmId);
+      return reviews;
     }
 
     private Review mapToReview(ResultSet rs, Integer rowNum) throws SQLException {

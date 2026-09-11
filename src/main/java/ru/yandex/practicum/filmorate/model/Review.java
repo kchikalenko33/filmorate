@@ -26,8 +26,8 @@ public class Review {
                 "content", content,
                 "isPositive", isPositive,
                 "userId", userId,
-                "filmId", filmId
-          //      "useful", useful
+                "filmId", filmId,
+                "useful", useful != null ? useful : 0
         );
     }
 }
